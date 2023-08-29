@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-4r [%t] %5p %c{1} %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="MDC" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-4r [%t] %5p %c{1}%n METHOD: %X{method}%n REQUEST: %X{request}%n %replace( ARG: %X{arg}){' ARG: $', ''}%n TASK: %X{task}%n %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="STACKTRACE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%n%X{stacktrace}%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="MDC_DUMP" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%mdc %n%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="dev.johnwatts.adventuresinmdc.resources.Resources">
+        <appender-ref ref="MDC_DUMP" />
+    </logger>
+    <logger name="dev.johnwatts.adventuresinmdc.resources.ErrorHandling">
+        <appender-ref ref="MDC_DUMP" />
+        <appender-ref ref="STACKTRACE" />
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
